@@ -4,56 +4,53 @@ document.addEventListener('DOMContentLoaded', function() {
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Get form data
-        const formData = new FormData(this);
-        const formObject = {};
-        
-        // Convert FormData to object for validation
-        formData.forEach((value, key) => {
-            formObject[key] = value;
-        });
-        
-        // If using Formspree, you can add a redirect URL if needed
-        // formData.append('_next', 'https://yoursite.com/thanks.html');
-        
-        // Validate form data
-        if (!validateForm(formObject)) {
-            return;
-        }
-        
-        // Option 1: Using Formspree (https://formspree.io)
-        // Replace 'your-formspree-endpoint' with the endpoint you get after signing up
-        const formspreeEndpoint = 'https://formspree.io/f/xblgarzn';
-        
-        // Display loading state
-        displayMessage('info', 'Sending your message...');
-        
-        fetch(formspreeEndpoint, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'Accept': 'application/json'
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const formObject = {};
+            
+            // Convert FormData to object for validation
+            formData.forEach((value, key) => {
+                formObject[key] = value;
+            });
+            
+            // Validate form data
+            if (!validateForm(formObject)) {
+                return;
             }
-        })
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            }
-            throw new Error('Network response was not ok.');
-        })
-        .then(data => {
-            // Display success message
-            displayMessage('success', 'Thank you for your message! We will get back to you soon.');
-            // Reset the form
-            contactForm.reset();
-        })
-        .catch(error => {
-            // Display error message
-            displayMessage('error', 'There was a problem submitting your form. Please try again later.');
-            console.error('Form submission error:', error);
-        });
+            
+            // Using Formspree
+            const formspreeEndpoint = 'https://formspree.io/f/xblgarzn';
+            
+            // Display loading state
+            displayMessage('info', 'Sending your message...');
+            
+            fetch(formspreeEndpoint, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Network response was not ok.');
+            })
+            .then(data => {
+                // Display success message
+                displayMessage('success', 'Thank you for your message! We will get back to you soon.');
+                // Reset the form
+                contactForm.reset();
+            })
+            .catch(error => {
+                // Display error message
+                displayMessage('error', 'There was a problem submitting your form. Please try again later.');
+                console.error('Form submission error:', error);
+            });
+        }); // Added missing closing bracket for form submit event listener
     }
     
     // Smooth scrolling for navigation links
@@ -65,10 +62,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const targetId = this.getAttribute('href');
             const targetElement = document.querySelector(targetId);
             
-            window.scrollTo({
-                top: targetElement.offsetTop - 70, // Account for fixed header
-                behavior: 'smooth'
-            });
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 70, // Account for fixed header
+                    behavior: 'smooth'
+                });
+            }
         });
     });
     
@@ -141,6 +140,7 @@ function isValidEmail(email) {
 
 // Function to display messages to the user
 function displayMessage(type, message) {
+    const contactForm = document.getElementById('contact-form');
     // Check if message container exists, create if not
     let messageContainer = document.getElementById('form-messages');
     if (!messageContainer) {
