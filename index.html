@@ -120,17 +120,18 @@
     </section>
     
     <section class="contact" id="contact">
-        <h2>Contact Us</h2>
-        <p>Have questions about our products or want to learn which peptides might be right for you? Reach out to our team of experts.</p>
-        
-        <form id="contact-form">
-            <input type="text" placeholder="Your Name" required>
-            <input type="email" placeholder="Your Email" required>
-            <input type="text" placeholder="Subject">
-            <textarea placeholder="Your Message"></textarea>
-            <button type="submit">Send Message</button>
-        </form>
-    </section>
+    <h2>Contact Us</h2>
+    <p>Have questions about our products or want to learn which peptides might be right for you? Reach out to our team of experts.</p>
+    
+    <form id="contact-form">
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
+        <input type="text" name="subject" placeholder="Subject">
+        <textarea name="message" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+    </form>
+    <div id="form-messages"></div>
+</section>
     
     <footer>
         <img src="logo_nobg.png" alt="Black Lotus Biotech Logo" class="footer-logo">
